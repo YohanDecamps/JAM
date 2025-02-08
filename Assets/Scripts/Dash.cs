@@ -62,13 +62,13 @@ public class Dash : MonoBehaviour, IInputObserver
 
     void OnCollisionEnter(Collision collision)
     {
-        if (isDashing && !collision.gameObject.CompareTag("Wall"))
+        if (isDashing && (collision.gameObject.CompareTag("NPC") || collision.gameObject.CompareTag("Player")))
         {
             // Ignore collision with entities while dashing
             Physics.IgnoreCollision(collision.collider, GetComponent<Collider>(), true);
             disabled.Add(collision.gameObject);
         }
-        else if (collision.gameObject.CompareTag("Wall"))
+        else if (collision.gameObject.CompareTag("NPC") || collision.gameObject.CompareTag("Player"))
         {
             // Stop dashing if colliding with a wall
             EndDash();
@@ -78,7 +78,7 @@ public class Dash : MonoBehaviour, IInputObserver
     void EndDash()
     {
         isDashing = false;
-        GetComponent<Rigidbody>().velocity = Vector3.zero; // Stop the player
+        GetComponent<Rigidbody>().velocity = transform.forward * movementSpeed;
 
         // Re-enable collisions with previously ignored entities
         foreach (GameObject obj in disabled)

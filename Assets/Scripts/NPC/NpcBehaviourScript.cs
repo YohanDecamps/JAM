@@ -40,7 +40,7 @@ public class NpcBehaviourScript : MonoBehaviour
                 }
                 break;
             case 1 :
-                if ((!_navMeshAgent.pathPending && _navMeshAgent.remainingDistance <= this._stoppingDistance && ) || this._destTimer >= this._movMaxTimer)
+                if ((!_navMeshAgent.pathPending && _navMeshAgent.remainingDistance <= this._stoppingDistance) || this._destTimer >= this._movMaxTimer)
                 {
                     MoveToRandomPoint();
                     this._destTimer = 0.0f;

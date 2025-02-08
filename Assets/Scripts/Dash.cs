@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class Dash : MonoBehaviour, IInputObserver
 {
@@ -6,11 +7,13 @@ public class Dash : MonoBehaviour, IInputObserver
     public float dashDuration = 0.25f; // Duration of the dash
     public float dashCooldown = 5f; // Cooldown time between dashes
 
+    public float movementSpeed = 10f; // Speed of the player movement
     private float dashTime;
     private float dashCooldownTime;
     private bool isDashing;
     private Vector3 dashDirection;
     public InputManager oiiacat;
+    private List<GameObject> disabled = new List<GameObject>();
 
     void Update()
     {
@@ -19,7 +22,9 @@ public class Dash : MonoBehaviour, IInputObserver
             DashMovement();
         }
     }
-    void Start() {
+
+    void Start()
+    {
         oiiacat.AddObserver(this);
     }
 
@@ -57,10 +62,11 @@ public class Dash : MonoBehaviour, IInputObserver
 
     void OnCollisionEnter(Collision collision)
     {
-        if (isDashing && !collision.gameObject.CompareTag("NPC"))
+        if (isDashing && !collision.gameObject.CompareTag("Wall"))
         {
             // Ignore collision with entities while dashing
             Physics.IgnoreCollision(collision.collider, GetComponent<Collider>(), true);
+            disabled.Add(collision.gameObject);
         }
         else if (collision.gameObject.CompareTag("Wall"))
         {
@@ -73,5 +79,12 @@ public class Dash : MonoBehaviour, IInputObserver
     {
         isDashing = false;
         GetComponent<Rigidbody>().velocity = Vector3.zero; // Stop the player
+
+        // Re-enable collisions with previously ignored entities
+        foreach (GameObject obj in disabled)
+        {
+            Physics.IgnoreCollision(obj.GetComponent<Collider>(), GetComponent<Collider>(), false);
+        }
+        disabled.Clear();
     }
 }

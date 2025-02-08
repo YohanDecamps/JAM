@@ -5,7 +5,6 @@ using UnityEngine.InputSystem;
 
 public class fireProjectile : MonoBehaviour
 {   
-    public InputManager inputManager;
     public GameObject projectile;
     [SerializeField] private float speed = 100f;
     [SerializeField] private float fireRate = 1f;

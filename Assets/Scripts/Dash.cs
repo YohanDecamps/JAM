@@ -13,7 +13,6 @@ public class Dash : MonoBehaviour
     private float dashCooldownTime;
     private bool isDashing;
     private Vector3 dashDirection;
-    public InputManager oiiacat;
     private List<GameObject> disabled = new List<GameObject>();
 
     void Update()

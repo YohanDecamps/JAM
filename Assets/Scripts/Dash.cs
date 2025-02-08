@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Dash : MonoBehaviour
+public class Dash : MonoBehaviour, IInputObserver
 {
     public float dashSpeed = 20f; // Speed of the dash
     public float dashDuration = 0.25f; // Duration of the dash
@@ -10,18 +10,29 @@ public class Dash : MonoBehaviour
     private float dashCooldownTime;
     private bool isDashing;
     private Vector3 dashDirection;
+    public InputManager oiiacat;
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.LeftShift) && Time.time > dashCooldownTime)
-        {
-            StartDash();
-        }
-
         if (isDashing)
         {
             DashMovement();
         }
+    }
+    void Start() {
+        oiiacat.AddObserver(this);
+    }
+
+    public void OnKeyPressed(string key, int playerId)
+    {
+        if (key == "Dash" && Time.time > dashCooldownTime)
+        {
+            StartDash();
+        }
+    }
+
+    public void OnMovePerformed(Vector2 movement, int playerId)
+    {
     }
 
     void StartDash()

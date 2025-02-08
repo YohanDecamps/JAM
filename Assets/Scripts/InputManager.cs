@@ -106,7 +106,11 @@ public class InputManager : MonoBehaviour
     {
         foreach (var observer in observers)
         {
-            observer.OnKeyPressed(key, playerId);
+            if (observer.GetPlayerId() == -1) {
+                observer.OnKeyPressed(key, playerId);
+            } else if (observer.GetPlayerId() == playerId) {
+                observer.OnKeyPressed(key, playerId);
+            }
         }
     }
 
@@ -114,7 +118,11 @@ public class InputManager : MonoBehaviour
     {
         foreach (var observer in observers)
         {
-            observer.OnMovePerformed(movement, playerId); // Notify observers with movement direction
+            if (observer.GetPlayerId() == -1) {
+                observer.OnMovePerformed(movement, playerId);
+            } else if (observer.GetPlayerId() == playerId) {
+                observer.OnMovePerformed(movement, playerId);
+            }
         }
     }
 

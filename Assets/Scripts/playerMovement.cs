@@ -37,4 +37,9 @@ public class playerMovement : MonoBehaviour, IInputObserver
         }
 
     }
+
+    public int GetPlayerId()
+    {
+        return -1;
+    }
 }

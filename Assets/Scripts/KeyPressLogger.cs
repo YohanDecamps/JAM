@@ -15,4 +15,9 @@ public class KeyPressLogger : MonoBehaviour, IInputObserver
     public void OnMovePerformed(Vector2 movement, int playerId)
     {
     }
+
+    public int GetPlayerId()
+    {
+        return -1;
+    }
 }

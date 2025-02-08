@@ -87,4 +87,9 @@ public class Dash : MonoBehaviour, IInputObserver
         }
         disabled.Clear();
     }
+
+    public int GetPlayerId()
+    {
+        return -1;
+    }
 }

@@ -47,4 +47,8 @@ public class fireProjectile : MonoBehaviour, IInputObserver
     void Update()
     {
     }
+
+    public int GetPlayerId() {
+        return -1;
+    }
 }

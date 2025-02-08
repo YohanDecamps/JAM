@@ -4,27 +4,50 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class NewBehaviourScript : MonoBehaviour
+public class NpcBehaviourScript : MonoBehaviour
 {
-    private  float _radius = 10.0f;
+    private float _radius = 10.0f;
     private float _stoppingDistance = 0.1f;
     private NavMeshAgent _navMeshAgent;
     private NavMeshPath _navMeshPath;
+    private float _movMaxTimer = 3.0f;
+    private float _destTimer = 0.0f;
+    private float _sleepingTimer = 0.0f;
+    private float speed = 3.5f;
     
     // Start is called before the first frame update
     void Start()
     {
         this._navMeshAgent = GetComponent<NavMeshAgent>();
-        this._navMeshPath = new NavMeshPath();
+        this._navMeshPath = new NavMeshPath(); 
+        this._navMeshAgent.speed = this.speed;
         MoveToRandomPoint();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (!_navMeshAgent.pathPending && _navMeshAgent.remainingDistance <= this._stoppingDistance)
+        this._destTimer += Time.deltaTime;
+        int action = Random.Range(0, 2);
+        switch (action)
         {
-            MoveToRandomPoint();
+            case 0:
+                if (this._destTimer >= this._movMaxTimer)
+                {
+                    this._navMeshAgent.velocity = Vector3.zero;
+                    this._navMeshAgent.ResetPath();
+                    this._destTimer = 0.0f;
+                }
+                break;
+            case 1 :
+                if ((!_navMeshAgent.pathPending && _navMeshAgent.remainingDistance <= this._stoppingDistance && ) || this._destTimer >= this._movMaxTimer)
+                {
+                    MoveToRandomPoint();
+                    this._destTimer = 0.0f;
+                }
+                break;
+            default:
+                break;
         }
     }
     

@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class fireProjectile : MonoBehaviour
+public class fireProjectile : MonoBehaviour, IInputObserver
 {   
+    public InputManager inputManager;
     public GameObject projectile;
     [SerializeField] private float speed = 100f;
     [SerializeField] private float fireRate = 1f;
@@ -24,21 +25,26 @@ public class fireProjectile : MonoBehaviour
         bullet.GetComponent<projectileBehaviour>().shooter = gameObject;
     }
 
-    void Start()
-    {
 
+    void Start() {
+        inputManager.AddObserver(this);
+    }
+
+    public void OnKeyPressed(string key, int playerId)
+    {
+        if (key == "Fire" && Time.time - lastShot > fireRate)
+        {
+            shoot();
+            lastShot = Time.time;
+        }
+    }
+
+    public void OnMovePerformed(Vector2 movement, int playerId)
+    {
     }
 
     // Update is called once per frame
     void Update()
     {
-        // If the player presses the space key and the time since the last shot is greater than the fire rate
-        if (Input.GetKeyDown(KeyCode.Space) && Time.time - lastShot > fireRate)
-        {
-            // Call the shoot function
-            shoot();
-            // Update the last shot time
-            lastShot = Time.time;
-        }
     }
 }

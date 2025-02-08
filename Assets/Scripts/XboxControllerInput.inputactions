@@ -6,7 +6,7 @@
             "id": "666fbab6-967a-4101-a769-587daaacb44a",
             "actions": [
                 {
-                    "name": "Tir de projectile",
+                    "name": "Fire",
                     "type": "Button",
                     "id": "52bb2af4-545a-4ff8-98c7-85d80a3d8e8a",
                     "expectedControlType": "Button",
@@ -51,7 +51,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Deplacement Joueur",
+                    "name": "Movement",
                     "type": "Value",
                     "id": "fe4dd294-10a5-4d92-a455-cd484548c9ab",
                     "expectedControlType": "Vector2",
@@ -68,7 +68,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Tir de projectile",
+                    "action": "Fire",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -79,7 +79,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Tir de projectile",
+                    "action": "Fire",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -176,9 +176,9 @@
                     "id": "0f24c724-6cec-44b1-b542-32444e1d3041",
                     "path": "<Gamepad>/leftStick",
                     "interactions": "",
-                    "processors": "",
+                    "processors": "StickDeadzone",
                     "groups": "",
-                    "action": "Deplacement Joueur",
+                    "action": "Movement",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

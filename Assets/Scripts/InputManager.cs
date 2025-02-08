@@ -23,11 +23,11 @@ public class InputManager : MonoBehaviour
         inputActions.Enable();
 
         // Find the actions
-        shootAction = inputActions.FindAction("Tir de projectile");
+        shootAction = inputActions.FindAction("Fire");
         dashAction = inputActions.FindAction("Dash");
         menuAction = inputActions.FindAction("Menu");
         pauseAction = inputActions.FindAction("Pause");
-        deplacementJoueurAction = inputActions.FindAction("Deplacement Joueur");
+        deplacementJoueurAction = inputActions.FindAction("Movement");
         emoteAction = inputActions.FindAction("Emote");
 
         // Subscribe to the "performed" event
@@ -45,7 +45,7 @@ public class InputManager : MonoBehaviour
     private void OnShootPerformed(InputAction.CallbackContext context)
     {
         int playerId = GetPlayerId(context);
-        NotifyObservers("Tir de projectile", playerId);
+        NotifyObservers("Fire", playerId);
     }
 
     private void OnDashPerformed(InputAction.CallbackContext context)

@@ -28,7 +28,7 @@ public partial class @XboxControllerInput: IInputActionCollection2, IDisposable
             ""id"": ""666fbab6-967a-4101-a769-587daaacb44a"",
             ""actions"": [
                 {
-                    ""name"": ""Tir de projectile"",
+                    ""name"": ""Fire"",
                     ""type"": ""Button"",
                     ""id"": ""52bb2af4-545a-4ff8-98c7-85d80a3d8e8a"",
                     ""expectedControlType"": ""Button"",
@@ -73,7 +73,7 @@ public partial class @XboxControllerInput: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Deplacement Joueur"",
+                    ""name"": ""Movement"",
                     ""type"": ""Value"",
                     ""id"": ""fe4dd294-10a5-4d92-a455-cd484548c9ab"",
                     ""expectedControlType"": ""Vector2"",
@@ -90,7 +90,7 @@ public partial class @XboxControllerInput: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Tir de projectile"",
+                    ""action"": ""Fire"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -101,7 +101,7 @@ public partial class @XboxControllerInput: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Tir de projectile"",
+                    ""action"": ""Fire"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -198,9 +198,9 @@ public partial class @XboxControllerInput: IInputActionCollection2, IDisposable
                     ""id"": ""0f24c724-6cec-44b1-b542-32444e1d3041"",
                     ""path"": ""<Gamepad>/leftStick"",
                     ""interactions"": """",
-                    ""processors"": """",
+                    ""processors"": ""StickDeadzone"",
                     ""groups"": """",
-                    ""action"": ""Deplacement Joueur"",
+                    ""action"": ""Movement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -217,12 +217,12 @@ public partial class @XboxControllerInput: IInputActionCollection2, IDisposable
 }");
         // Player
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
-        m_Player_Tirdeprojectile = m_Player.FindAction("Tir de projectile", throwIfNotFound: true);
+        m_Player_Fire = m_Player.FindAction("Fire", throwIfNotFound: true);
         m_Player_Dash = m_Player.FindAction("Dash", throwIfNotFound: true);
         m_Player_Menu = m_Player.FindAction("Menu", throwIfNotFound: true);
         m_Player_Pause = m_Player.FindAction("Pause", throwIfNotFound: true);
         m_Player_Emote = m_Player.FindAction("Emote", throwIfNotFound: true);
-        m_Player_DeplacementJoueur = m_Player.FindAction("Deplacement Joueur", throwIfNotFound: true);
+        m_Player_Movement = m_Player.FindAction("Movement", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -284,22 +284,22 @@ public partial class @XboxControllerInput: IInputActionCollection2, IDisposable
     // Player
     private readonly InputActionMap m_Player;
     private List<IPlayerActions> m_PlayerActionsCallbackInterfaces = new List<IPlayerActions>();
-    private readonly InputAction m_Player_Tirdeprojectile;
+    private readonly InputAction m_Player_Fire;
     private readonly InputAction m_Player_Dash;
     private readonly InputAction m_Player_Menu;
     private readonly InputAction m_Player_Pause;
     private readonly InputAction m_Player_Emote;
-    private readonly InputAction m_Player_DeplacementJoueur;
+    private readonly InputAction m_Player_Movement;
     public struct PlayerActions
     {
         private @XboxControllerInput m_Wrapper;
         public PlayerActions(@XboxControllerInput wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Tirdeprojectile => m_Wrapper.m_Player_Tirdeprojectile;
+        public InputAction @Fire => m_Wrapper.m_Player_Fire;
         public InputAction @Dash => m_Wrapper.m_Player_Dash;
         public InputAction @Menu => m_Wrapper.m_Player_Menu;
         public InputAction @Pause => m_Wrapper.m_Player_Pause;
         public InputAction @Emote => m_Wrapper.m_Player_Emote;
-        public InputAction @DeplacementJoueur => m_Wrapper.m_Player_DeplacementJoueur;
+        public InputAction @Movement => m_Wrapper.m_Player_Movement;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -309,9 +309,9 @@ public partial class @XboxControllerInput: IInputActionCollection2, IDisposable
         {
             if (instance == null || m_Wrapper.m_PlayerActionsCallbackInterfaces.Contains(instance)) return;
             m_Wrapper.m_PlayerActionsCallbackInterfaces.Add(instance);
-            @Tirdeprojectile.started += instance.OnTirdeprojectile;
-            @Tirdeprojectile.performed += instance.OnTirdeprojectile;
-            @Tirdeprojectile.canceled += instance.OnTirdeprojectile;
+            @Fire.started += instance.OnFire;
+            @Fire.performed += instance.OnFire;
+            @Fire.canceled += instance.OnFire;
             @Dash.started += instance.OnDash;
             @Dash.performed += instance.OnDash;
             @Dash.canceled += instance.OnDash;
@@ -324,16 +324,16 @@ public partial class @XboxControllerInput: IInputActionCollection2, IDisposable
             @Emote.started += instance.OnEmote;
             @Emote.performed += instance.OnEmote;
             @Emote.canceled += instance.OnEmote;
-            @DeplacementJoueur.started += instance.OnDeplacementJoueur;
-            @DeplacementJoueur.performed += instance.OnDeplacementJoueur;
-            @DeplacementJoueur.canceled += instance.OnDeplacementJoueur;
+            @Movement.started += instance.OnMovement;
+            @Movement.performed += instance.OnMovement;
+            @Movement.canceled += instance.OnMovement;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
         {
-            @Tirdeprojectile.started -= instance.OnTirdeprojectile;
-            @Tirdeprojectile.performed -= instance.OnTirdeprojectile;
-            @Tirdeprojectile.canceled -= instance.OnTirdeprojectile;
+            @Fire.started -= instance.OnFire;
+            @Fire.performed -= instance.OnFire;
+            @Fire.canceled -= instance.OnFire;
             @Dash.started -= instance.OnDash;
             @Dash.performed -= instance.OnDash;
             @Dash.canceled -= instance.OnDash;
@@ -346,9 +346,9 @@ public partial class @XboxControllerInput: IInputActionCollection2, IDisposable
             @Emote.started -= instance.OnEmote;
             @Emote.performed -= instance.OnEmote;
             @Emote.canceled -= instance.OnEmote;
-            @DeplacementJoueur.started -= instance.OnDeplacementJoueur;
-            @DeplacementJoueur.performed -= instance.OnDeplacementJoueur;
-            @DeplacementJoueur.canceled -= instance.OnDeplacementJoueur;
+            @Movement.started -= instance.OnMovement;
+            @Movement.performed -= instance.OnMovement;
+            @Movement.canceled -= instance.OnMovement;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -377,11 +377,11 @@ public partial class @XboxControllerInput: IInputActionCollection2, IDisposable
     }
     public interface IPlayerActions
     {
-        void OnTirdeprojectile(InputAction.CallbackContext context);
+        void OnFire(InputAction.CallbackContext context);
         void OnDash(InputAction.CallbackContext context);
         void OnMenu(InputAction.CallbackContext context);
         void OnPause(InputAction.CallbackContext context);
         void OnEmote(InputAction.CallbackContext context);
-        void OnDeplacementJoueur(InputAction.CallbackContext context);
+        void OnMovement(InputAction.CallbackContext context);
     }
 }

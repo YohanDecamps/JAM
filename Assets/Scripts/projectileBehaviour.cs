@@ -19,20 +19,11 @@ public class projectileBehaviour : MonoBehaviour
         if (collision.gameObject.CompareTag("NPC"))
         {
             Debug.Log("Hit NPC");
-            // Duplicate the fire projectile script from the player (shooter) to the NPC (collision.gameObject)
-            fireProjectile fireProjectile = shooter.GetComponent<fireProjectile>();
-            collision.gameObject.AddComponent<fireProjectile>();
-            collision.gameObject.GetComponent<fireProjectile>().projectile = fireProjectile.projectile;
-
-            // Change the NPC tag to Player Tag
-            collision.gameObject.tag = "Player";
-
-            // Rename the NPC to the player's name
-            collision.gameObject.name = shooter.name;
-
-            // Destroy the NPC and the projectile
-            Destroy(shooter);
+            // Replace the shooter transform with the NPC transform
+            shooter.transform.position = collision.gameObject.transform.position;
+            shooter.transform.rotation = collision.gameObject.transform.rotation;
             Destroy(gameObject);
+            Destroy(collision.gameObject);
         }
     }
 }

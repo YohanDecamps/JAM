@@ -14,8 +14,6 @@ public class NewBehaviourScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        //GetComponent<Rigidbody>().addForce(thrust);
     }
-
-    private var cooldownTimer = 0f;
 }

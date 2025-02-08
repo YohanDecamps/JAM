@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class projectileBehaviour : MonoBehaviour
 {
-    public GameObject shooter;
+    public GameObject shooterController;
     // Start is called before the first frame update
     
     void OnCollisionEnter(Collision collision)
@@ -19,11 +19,13 @@ public class projectileBehaviour : MonoBehaviour
         if (collision.gameObject.CompareTag("NPC"))
         {
             Debug.Log("Hit NPC");
-            // Replace the shooter transform with the NPC transform
-            shooter.transform.position = collision.gameObject.transform.position;
-            shooter.transform.rotation = collision.gameObject.transform.rotation;
+            GameObject shooterParent = shooterController.transform.parent.gameObject;
+            // move the shooterController gameObject to be a child of the NPC
+            shooterController.transform.parent = collision.gameObject.transform;
+            // Reset the position of the shooterController gameObject
+            shooterController.transform.localPosition = Vector3.zero;
+            Destroy(shooterParent);
             Destroy(gameObject);
-            Destroy(collision.gameObject);
         }
     }
 }

@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
-public class fireProjectile : MonoBehaviour, IInputObserver
+public class fireProjectile : MonoBehaviour
 {   
     public InputManager inputManager;
     public GameObject projectile;
@@ -15,40 +16,22 @@ public class fireProjectile : MonoBehaviour, IInputObserver
     void shoot()
     {
         // Calculate the shooting point using the forward direction and offset from the position of the player
-        Vector3 shootingPoint = transform.position + transform.forward * shootOffset;
+        Vector3 shootingPoint = GetComponentInParent<Transform>().position + GetComponentInParent<Transform>().forward * shootOffset;
         // Instantiate the projectile at the shooting point
         GameObject bullet = Instantiate(projectile, shootingPoint, Quaternion.identity);
         // Get the rigidbody of the projectile
         Rigidbody rb = bullet.GetComponent<Rigidbody>();
         // Set the velocity of the projectile in the forward direction
-        rb.velocity = transform.forward * speed;
-        bullet.GetComponent<projectileBehaviour>().shooter = gameObject;
+        rb.velocity = GetComponentInParent<Transform>().forward * speed;
+        bullet.GetComponent<projectileBehaviour>().shooterController = gameObject;
     }
 
-
-    void Start() {
-        inputManager.AddObserver(this);
-    }
-
-    public void OnKeyPressed(string key, int playerId)
+    public void OnFire(InputAction.CallbackContext context)
     {
-        if (key == "Fire" && Time.time - lastShot > fireRate)
+        if (Time.time - lastShot > fireRate)
         {
             shoot();
             lastShot = Time.time;
         }
-    }
-
-    public void OnMovePerformed(Vector2 movement, int playerId)
-    {
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-    }
-
-    public int GetPlayerId() {
-        return -1;
     }
 }

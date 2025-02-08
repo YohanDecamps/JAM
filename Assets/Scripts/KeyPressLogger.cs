@@ -10,10 +10,12 @@ public class KeyPressLogger : MonoBehaviour, IInputObserver
 
     public void OnKeyPressed(string key, int playerId)
     {
+        Debug.Log($"Key pressed: {key} by player {playerId}");
     }
 
     public void OnMovePerformed(Vector2 movement, int playerId)
     {
+        
     }
 
     public int GetPlayerId()

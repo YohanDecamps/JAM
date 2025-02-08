@@ -1,7 +1,8 @@
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.InputSystem;
 
-public class Dash : MonoBehaviour, IInputObserver
+public class Dash : MonoBehaviour
 {
     public float dashSpeed = 20f; // Speed of the dash
     public float dashDuration = 0.25f; // Duration of the dash
@@ -23,36 +24,27 @@ public class Dash : MonoBehaviour, IInputObserver
         }
     }
 
-    void Start()
+    public void OnDash(InputAction.CallbackContext context)
     {
-        oiiacat.AddObserver(this);
-    }
-
-    public void OnKeyPressed(string key, int playerId)
-    {
-        if (key == "Dash" && Time.time > dashCooldownTime)
-        {
+        if (Time.time > dashCooldownTime) {
             StartDash();
         }
     }
 
-    public void OnMovePerformed(Vector2 movement, int playerId)
-    {
-    }
 
     void StartDash()
     {
         isDashing = true;
         dashTime = Time.time + dashDuration;
         dashCooldownTime = Time.time + dashCooldown;
-        dashDirection = transform.forward; // Dash in the direction the player is facing
+        dashDirection = GetComponentInParent<Transform>().transform.forward; // Dash in the direction the player is facing
     }
 
     void DashMovement()
     {
         if (Time.time < dashTime)
         {
-            GetComponent<Rigidbody>().velocity = dashDirection * dashSpeed;
+            GetComponentInParent<Rigidbody>().velocity = dashDirection * dashSpeed;
         }
         else
         {
@@ -78,7 +70,7 @@ public class Dash : MonoBehaviour, IInputObserver
     void EndDash()
     {
         isDashing = false;
-        GetComponent<Rigidbody>().velocity = transform.forward * movementSpeed;
+        GetComponentInParent<Rigidbody>().velocity = GetComponentInParent<Transform>().transform.forward * movementSpeed;
 
         // Re-enable collisions with previously ignored entities
         foreach (GameObject obj in disabled)
@@ -86,10 +78,5 @@ public class Dash : MonoBehaviour, IInputObserver
             Physics.IgnoreCollision(obj.GetComponent<Collider>(), GetComponent<Collider>(), false);
         }
         disabled.Clear();
-    }
-
-    public int GetPlayerId()
-    {
-        return -1;
     }
 }

@@ -27,6 +27,10 @@ public class PlayerManager : MonoBehaviour
             npc.tag = "Player";
             // Change the name of the NPC to the name of the player controller
             npc.name = "Player" + playerInput.playerIndex;
+            // Remove the nav mesh agent from the NPC
+            Destroy(npc.GetComponent<UnityEngine.AI.NavMeshAgent>());
+            // Remove the NPC script from the NPC
+            Destroy(npc.GetComponent<NpcBehaviourScript>());
         }
     }
 }

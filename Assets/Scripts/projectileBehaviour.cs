@@ -27,6 +27,10 @@ public class projectileBehaviour : MonoBehaviour
             shooterController.transform.localRotation = Quaternion.identity;
             collision.gameObject.tag = "Player";
             collision.gameObject.name = shooterParent.name;
+            // Remove the nav mesh agent from the NPC
+            Destroy(collision.gameObject.GetComponent<UnityEngine.AI.NavMeshAgent>());
+            // Remove the NPC script from the NPC
+            Destroy(collision.gameObject.GetComponent<NpcBehaviourScript>());
             // Destroy the shooterParent gameObject
             Destroy(shooterParent);
             Destroy(gameObject);

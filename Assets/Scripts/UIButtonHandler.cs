@@ -3,16 +3,32 @@ using UnityEngine.UIElements;
 
 public class UIButtonHideUI : MonoBehaviour
 {
-    private void OnEnable()
+    private VisualElement uiPanel;
+
+    void Start()
     {
         var root = GetComponent<UIDocument>().rootVisualElement;
 
-        // Get the button and the UI panel (or root)
+        // Get the button and the UI panel
         Button myButton = root.Q<Button>("myButton");
-        VisualElement uiPanel = root.Q<VisualElement>("uiPanel"); // Name of the UI container
+        uiPanel = root.Q<VisualElement>("uiPanel"); // Ensure this matches your UI container's name
 
-        // Register the button click event
-        myButton.clicked += () => uiPanel.style.display = uiPanel.style.display == DisplayStyle.None ? DisplayStyle.Flex : DisplayStyle.None;
+        // Hide the UI panel at start
+        uiPanel.style.display = DisplayStyle.None;
 
+        // Attach button click event to toggle the UI
+        myButton.clicked += ToggleUI;
+    }
+
+    private void ToggleUI()
+    {
+        if (uiPanel.style.display == DisplayStyle.None)
+        {
+            uiPanel.style.display = DisplayStyle.Flex;
+        }
+        else
+        {
+            uiPanel.style.display = DisplayStyle.None;
+        }
     }
 }

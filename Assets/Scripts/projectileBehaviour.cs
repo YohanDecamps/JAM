@@ -16,8 +16,7 @@ public class projectileBehaviour : MonoBehaviour
             // Destroy the projectile
             Destroy(gameObject);
         }
-        if (collision.gameObject.CompareTag("NPC"))
-        {
+        if (collision.gameObject.CompareTag("NPC")) {
             Debug.Log("Hit NPC");
             GameObject shooterParent = shooterController.transform.parent.gameObject;
             // move the shooterController gameObject to be a child of the NPC
@@ -34,6 +33,13 @@ public class projectileBehaviour : MonoBehaviour
             // Destroy the shooterParent gameObject
             Destroy(shooterParent);
             Destroy(gameObject);
+        }
+        if (collision.gameObject.CompareTag("Player")) {
+            GameObject shooterParent = shooterController.transform.parent.gameObject;
+            if (collision.gameObject.name != shooterParent.name) {
+                Debug.Log("Hit Player");
+                Destroy(collision.gameObject);
+            }
         }
     }
 }

@@ -1,7 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class playerMovement : MonoBehaviour 
 {
@@ -9,10 +8,8 @@ public class playerMovement : MonoBehaviour
 
     public void OnMove(InputAction.CallbackContext context)
     {
-        Debug.Log("Move");
         Vector2 movement = context.ReadValue<Vector2>();
         Rigidbody rb = GetComponentInParent<Rigidbody>();
-        Debug.Log(rb);
         if (movement != Vector2.zero)
         {
             // Rotate the player to face the direction of the movement
@@ -25,5 +22,12 @@ public class playerMovement : MonoBehaviour
             // Set the velocity to zero if no movement
             rb.velocity = Vector3.zero;
         }
+    }
+
+    public void OnStart(InputAction.CallbackContext context)
+    {
+        Debug.Log("Start Detected");
+        string currentSceneName = SceneManager.GetActiveScene().name;
+        SceneManager.LoadScene(currentSceneName);
     }
 }

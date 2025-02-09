@@ -35,8 +35,7 @@ public class PlayerManager : MonoBehaviour
     {
         // Parent controller to NPC
         controller.transform.SetParent(npc.transform);
-        controller.transform.localPosition = Vector3.zero;
-        controller.transform.localRotation = Quaternion.identity;
+        controller.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
 
         // Update NPC metadata
         npc.tag = "Player";

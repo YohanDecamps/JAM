@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
-public class playerMovement : MonoBehaviour 
+public class playerMovement : MonoBehaviour
 {
     public float speed = 5f;
 
@@ -12,6 +12,10 @@ public class playerMovement : MonoBehaviour
         Rigidbody rb = GetComponentInParent<Rigidbody>();
         if (movement != Vector2.zero)
         {
+            if (rb == null)
+            {
+                return;
+            }
             // Rotate the player to face the direction of the movement
             rb.rotation = Quaternion.LookRotation(new Vector3(movement.x, 0, movement.y));
             // Move the player in the direction of the movement

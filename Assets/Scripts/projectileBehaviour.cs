@@ -24,6 +24,7 @@ public class projectileBehaviour : MonoBehaviour
             shooterController.transform.parent = collision.gameObject.transform;
             // Reset the position of the shooterController gameObject
             shooterController.transform.localPosition = Vector3.zero;
+            shooterController.transform.localRotation = Quaternion.identity;
             collision.gameObject.tag = "Player";
             collision.gameObject.name = shooterParent.name;
             // Destroy the shooterParent gameObject

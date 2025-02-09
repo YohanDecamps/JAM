@@ -12,11 +12,10 @@ GameObject:
   - component: {fileID: 3256081900285162451}
   - component: {fileID: 357827614994395842}
   - component: {fileID: 4072560976613922185}
-  - component: {fileID: 4570003757332433401}
   - component: {fileID: 5709454597222241863}
   m_Layer: 0
   m_Name: PlayerController
-  m_TagString: Untagged
+  m_TagString: PlayerController
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -48,7 +47,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c5ef79c7ff27ec4abf64231a5a0d7c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inputManager: {fileID: 0}
   projectile: {fileID: 5630730545505066379, guid: 9933a77c2df692b4a9798a01647a2b5d,
     type: 3}
   speed: 50
@@ -62,7 +60,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7053984472499239010}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 119114ad8e3a53ed5802496b91bec08b, type: 3}
   m_Name: 
@@ -71,7 +69,6 @@ MonoBehaviour:
   dashDuration: 0.15
   dashCooldown: 1
   movementSpeed: 10
-  oiiacat: {fileID: 0}
 --- !u!114 &4072560976613922185
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -85,19 +82,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 10
---- !u!114 &4570003757332433401
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7053984472499239010}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 15ce8ae2d731ce8408adce5894caa1aa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerId: -1
 --- !u!114 &5709454597222241863
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -125,11 +109,35 @@ MonoBehaviour:
       m_Calls: []
   m_ActionEvents:
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 3256081900285162451}
+        m_TargetAssemblyTypeName: fireProjectile, Assembly-CSharp
+        m_MethodName: OnFire
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 52bb2af4-545a-4ff8-98c7-85d80a3d8e8a
     m_ActionName: Player/Fire[/XInputControllerWindows/buttonSouth,/XInputControllerWindows/rightTrigger]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 357827614994395842}
+        m_TargetAssemblyTypeName: Dash, Assembly-CSharp
+        m_MethodName: OnDash
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 7a6bbcf6-10e6-4081-bcba-82b4f0569d7f
     m_ActionName: Player/Dash[/XInputControllerWindows/buttonEast,/XInputControllerWindows/leftTrigger]
   - m_PersistentCalls:
@@ -161,7 +169,7 @@ MonoBehaviour:
     m_ActionId: fe4dd294-10a5-4d92-a455-cd484548c9ab
     m_ActionName: Player/Movement[/XInputControllerWindows/leftStick]
   m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: XBOX
+  m_DefaultControlScheme: 
   m_DefaultActionMap: Player
   m_SplitScreenIndex: 0
   m_Camera: {fileID: 0}

@@ -13,7 +13,7 @@ public class NpcBehaviourScript : MonoBehaviour
     private float _movMaxTimer = 3.0f;
     private float _destTimer = 0.0f;
     //private float _sleepingTimer = 0.0f;
-    private float speed = 3.5f;
+    public float speed = 3.5f;
     
     // Start is called before the first frame update
     void Start()

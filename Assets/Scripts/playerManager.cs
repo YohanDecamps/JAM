@@ -44,6 +44,10 @@ public class PlayerManager : MonoBehaviour
 
         // Track relationship
         playerToNPCMap[input.playerIndex] = npc;
+
+        // Remove NPC-specific components
+        Destroy(npc.GetComponent<NpcBehaviourScript>());
+        Destroy(npc.GetComponent<UnityEngine.AI.NavMeshAgent>());
     }
 
     public void OnPlayerLeft(PlayerInput playerInput)
@@ -54,6 +58,9 @@ public class PlayerManager : MonoBehaviour
         {
             ResetNPC(npc);
             playerToNPCMap.Remove(playerInput.playerIndex);
+            // Re-enable NPC-specific components
+            npc.AddComponent<NpcBehaviourScript>();
+            npc.AddComponent<UnityEngine.AI.NavMeshAgent>();
         }
     }
 

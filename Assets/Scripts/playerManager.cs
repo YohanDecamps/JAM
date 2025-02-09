@@ -1,36 +1,68 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerManager : MonoBehaviour
 {
+    // Maps player indices to their controlled NPCs
+    private readonly Dictionary<int, GameObject> playerToNPCMap = new();
+
     public void OnPlayerJoined(PlayerInput playerInput)
     {
-        Debug.Log($"Player {playerInput.playerIndex} joined with device: {playerInput.devices[0].name}");
-        // Get all the game objects with the tag "PlayerController" and with no parents
-        GameObject[] playerControllers = GameObject.FindGameObjectsWithTag("PlayerController");
-        // Filter out the player controllers that have a parent
-        playerControllers = System.Array.FindAll(playerControllers, playerController => playerController.transform.parent == null);
+        Debug.Log($"Player {playerInput.playerIndex} joined");
         
-
-        // Loop through all the player controllers
-        foreach (GameObject playerController in playerControllers)
+        GameObject playerController = playerInput.gameObject;
+        
+        if (playerController.transform.parent != null)
         {
-            // Get all the game objects with the tag "NPC"
-            GameObject[] npcs = GameObject.FindGameObjectsWithTag("NPC");
-            // Get a random NPC and child the player controller to it
-            GameObject npc = npcs[Random.Range(0, npcs.Length)];
-            playerController.transform.parent = npc.transform;
-            // Reset the position of the player controller
-            playerController.transform.localPosition = Vector3.zero;
-            playerController.transform.localRotation = Quaternion.identity;
-            // Change the tag of the NPC to "Player"
-            npc.tag = "Player";
-            // Change the name of the NPC to the name of the player controller
-            npc.name = "Player" + playerInput.playerIndex;
-            // Remove the nav mesh agent from the NPC
-            Destroy(npc.GetComponent<UnityEngine.AI.NavMeshAgent>());
-            // Remove the NPC script from the NPC
-            Destroy(npc.GetComponent<NpcBehaviourScript>());
+            Debug.LogWarning("PlayerController already parented. Skipping setup.");
+            return;
         }
+
+        GameObject[] npcs = GameObject.FindGameObjectsWithTag("NPC");
+        if (npcs.Length == 0)
+        {
+            Debug.LogError("No available NPCs!");
+            return;
+        }
+
+        // Select and setup NPC
+        GameObject npc = npcs[Random.Range(0, npcs.Length)];
+        SetupPlayerNPC(playerInput, playerController, npc);
+    }
+
+    private void SetupPlayerNPC(PlayerInput input, GameObject controller, GameObject npc)
+    {
+        // Parent controller to NPC
+        controller.transform.SetParent(npc.transform);
+        controller.transform.localPosition = Vector3.zero;
+        controller.transform.localRotation = Quaternion.identity;
+
+        // Update NPC metadata
+        npc.tag = "Player";
+        npc.name = $"Player{input.playerIndex}";
+
+        // Track relationship
+        playerToNPCMap[input.playerIndex] = npc;
+    }
+
+    public void OnPlayerLeft(PlayerInput playerInput)
+    {
+        Debug.Log($"Player {playerInput.playerIndex} left");
+        
+        if (playerToNPCMap.TryGetValue(playerInput.playerIndex, out GameObject npc))
+        {
+            ResetNPC(npc);
+            playerToNPCMap.Remove(playerInput.playerIndex);
+        }
+    }
+
+    private void ResetNPC(GameObject npc)
+    {
+        // Reset NPC properties
+        npc.tag = "NPC";
+        npc.name = "NPC";
+        
+        // Optional: Add visual/behavioral reset logic here
     }
 }
